@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='certbot-dns-ipv64',
@@ -7,14 +7,14 @@ setup(
     author='Pascal Fleischhauer',
     author_email='pascalfleischhauer@gmail.com',
     license='Apache License 2.0',
-    package='dns-ipv64.py',
+    packages=find_packages(),
     install_requires=[
         'certbot',
         'requests',
     ],
     entry_points={
         'certbot.plugins': [
-            'dns-ipv64 = dns_ipv64:Authenticator',
+            'dns-ipv64 = certbot_dns_ipv64._internal.dns_ipv64:Authenticator',
         ],
     },
 )
