@@ -25,8 +25,8 @@ class Authenticator(dns_common.DNSAuthenticator):
         bearer_token = credentials.conf('bearer-token')
 
         if (len(bearer_token) != 32):
-            logger.error("The bearer_token must be 32 characters long")
-            raise errors.PluginError("The bearer_token must be 32 characters long")
+            logger.error('The bearer_token must be 32 characters long')
+            raise errors.PluginError('The bearer_token must be 32 characters long')
         
         else:
             self.ipv64 = ipv64_client(bearer_token)
@@ -69,38 +69,38 @@ class ipv64_client():
         dns_zone = self.get_dns_zone(domain)
         praefix = self.get_domain_praefix(domain, dns_zone)
 
-        logger.info("Adding TXT-Record " + domain + " to zone " + dns_zone)
+        logger.info('Adding TXT-Record ' + domain + ' to zone ' + dns_zone)
 
         json = {'add_record': dns_zone, 'praefix': praefix, 'type': 'TXT', 'content': content}
         response = requests.post(self.api_url, data=json, headers=self.auth_header)
 
-        if (response.json()["info"] == "Unauthorized"):
-            logger.error("The following error occured while adding the TXT-Record " + domain + " to the zone " + dns_zone + ": " + response.json()["info"])
-            raise errors.PluginError("The following error occured while adding the TXT-Record " + domain + " to the zone " + dns_zone + ": " + response.json()["info"])
+        if (response.json()['info'] == 'Unauthorized'):
+            logger.error('The following error occured while adding the TXT-Record ' + domain + ' to the zone ' + dns_zone + ': ' + response.json()['info'])
+            raise errors.PluginError('The following error occured while adding the TXT-Record ' + domain + ' to the zone ' + dns_zone + ': ' + response.json()['info'])
 
-        if (response.json()["info"] != "success"):
-            logger.error("The following error occured while adding the TXT-Record " + domain + " to the zone " + dns_zone + ": " + response.json()["add_record"])
-            raise errors.PluginError("The following error occured while adding the TXT-Record " + domain + " to the zone " + dns_zone + ": " + response.json()["add_record"])
+        if (response.json()['info'] != 'success'):
+            logger.error('The following error occured while adding the TXT-Record ' + domain + ' to the zone ' + dns_zone + ': ' + response.json()['add_record'])
+            raise errors.PluginError('The following error occured while adding the TXT-Record ' + domain + ' to the zone ' + dns_zone + ': ' + response.json()['add_record'])
 
         else:
-            logger.info("Successfully added TXT-Record "  + domain + " to the zone: " + dns_zone)
+            logger.info('Successfully added TXT-Record '  + domain + ' to the zone: ' + dns_zone)
 
     def del_txt_record(self, domain: str, content: str):
         
         dns_zone = self.get_dns_zone(domain)
         praefix = self.get_domain_praefix(domain, dns_zone)
 
-        logger.info("Deleting TXT-Record " + domain + " from the zone " + dns_zone)
+        logger.info('Deleting TXT-Record ' + domain + ' from the zone ' + dns_zone)
 
         json = {'del_record': dns_zone, 'praefix': praefix, 'type': 'TXT', 'content': content}
         response = requests.delete(self.api_url, data=json, headers=self.auth_header)
 
-        if (response.json()["info"] == "Unauthorized"):
-            logger.warn("The following error occurred while deleting the TXT-Record " + domain + " in the zone " + dns_zone + ": " + response.json()["info"])
+        if (response.json()['info'] == 'Unauthorized'):
+            logger.warn('The following error occurred while deleting the TXT-Record ' + domain + ' in the zone ' + dns_zone + ': ' + response.json()['info'])
             
-        if (response.json()["info"] != "success"):
-            logger.warn("The following error occurred while deleting the TXT-Record " + domain + " in the zone " + dns_zone + ": " + response.json()["add_record"])
+        if (response.json()['info'] != 'success'):
+            logger.warn('The following error occurred while deleting the TXT-Record ' + domain + ' in the zone ' + dns_zone + ': ' + response.json()['add_record'])
 
         else:
-            logger.info("Successfully deleted the TXT-Record " + domain + " from the zone " + dns_zone)
+            logger.info('Successfully deleted the TXT-Record ' + domain + ' from the zone ' + dns_zone)
 
