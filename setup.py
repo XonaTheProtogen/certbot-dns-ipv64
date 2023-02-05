@@ -7,6 +7,7 @@ setup(
     author='Pascal Fleischhauer',
     author_email='pascalfleischhauer@gmail.com',
     license='Apache License 2.0',
+    python_requires='>=3.9',
     packages=find_packages(),
     install_requires=[
         'certbot',
