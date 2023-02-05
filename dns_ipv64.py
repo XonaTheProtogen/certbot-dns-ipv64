@@ -19,8 +19,7 @@ class Authenticator(dns_common.DNSAuthenticator):
         add('credentials', help='IPv64 credentials INI file.')
 
     def more_info(self):
-        return 'This plugin configures a DNS TXT record to respond to a dns-01 challenge using ' + \
-               'the IPv64 API.'
+        return 'This plugin configures a DNS TXT record to respond to a dns-01 challenge using the IPv64 API.'
 
     def _validate_credentials(self, credentials: CredentialsConfiguration): 
         bearer_token = credentials.conf('bearer-token')
