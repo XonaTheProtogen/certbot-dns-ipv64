@@ -12,7 +12,6 @@ class Authenticator(dns_common.DNSAuthenticator):
     """DNS Authenticator for IPv64."""
 
     description = 'Obtain certificates using a DNS TXT record (if you are using IPv64 for DNS).'
-    api_url = 'https://ipv64.net/api.php'
 
     @classmethod
     def add_parser_arguments(cls, add):
