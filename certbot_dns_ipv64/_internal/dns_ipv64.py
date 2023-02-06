@@ -60,18 +60,19 @@ class ipv64_client():
         stripped_domain = '.'.join(domain.split('.')[-2:])
         return stripped_domain
 
-    def get_domain_praefix(self, domain: str, dns_zone: str) -> str:
-        praefix = domain.removesuffix('.' + dns_zone)
-        return praefix
+    def get_domain_prefix(self, domain: str, dns_zone: str) -> str:
+        len_dns_zone = len(dns_zone)
+        prefix = domain[:-len_dns_zone - 1]
+        return prefix
 
     def add_txt_record(self, domain: str, content: str):
         
         dns_zone = self.get_dns_zone(domain)
-        praefix = self.get_domain_praefix(domain, dns_zone)
+        prefix = self.get_domain_prefix(domain, dns_zone)
 
         logger.info('Adding TXT-Record ' + domain + ' to zone ' + dns_zone)
 
-        json = {'add_record': dns_zone, 'praefix': praefix, 'type': 'TXT', 'content': content}
+        json = {'add_record': dns_zone, 'praefix': prefix, 'type': 'TXT', 'content': content}
         response = requests.post(self.api_url, data=json, headers=self.auth_header)
 
         if (response.json()['info'] == 'Unauthorized'):
@@ -88,11 +89,11 @@ class ipv64_client():
     def del_txt_record(self, domain: str, content: str):
         
         dns_zone = self.get_dns_zone(domain)
-        praefix = self.get_domain_praefix(domain, dns_zone)
+        prefix = self.get_domain_prefix(domain, dns_zone)
 
         logger.info('Deleting TXT-Record ' + domain + ' from the zone ' + dns_zone)
 
-        json = {'del_record': dns_zone, 'praefix': praefix, 'type': 'TXT', 'content': content}
+        json = {'del_record': dns_zone, 'praefix': prefix, 'type': 'TXT', 'content': content}
         response = requests.delete(self.api_url, data=json, headers=self.auth_header)
 
         if (response.json()['info'] == 'Unauthorized'):
