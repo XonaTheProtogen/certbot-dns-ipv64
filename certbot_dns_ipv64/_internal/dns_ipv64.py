@@ -66,13 +66,13 @@ class IPv64Client():
 
     def _check_errors(self, json: str) -> None:
 
-        if (response.json()['info'] == 'Unauthorized'):
-            logger.error('The following error occured: ' + response.json()['info'])
-            raise errors.PluginError('The following error occured: ' + response.json()['info'])
+        if (json['info'] == 'Unauthorized'):
+            logger.error('The following error occured: ' + json['info'])
+            raise errors.PluginError('The following error occured: ' + json['info'])
 
-        if (response.json()['info'] != 'success'):
-            logger.error('The following error occured: ' + response.json()['add_record'])
-            raise errors.PluginError('The following error occured: ' + response.json()['add_record'])
+        if (json['info'] != 'success'):
+            logger.error('The following error occured: ' + json['add_record'])
+            raise errors.PluginError('The following error occured: ' + json['add_record'])
 
         logger.info('Successfully performed action')
 
